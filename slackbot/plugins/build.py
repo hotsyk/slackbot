@@ -24,16 +24,16 @@ def stage_build(message):
             message.send('>Stopping stage build')
             break
         else:
-            message.send('>Stage build in {0}'.format(5 - i))
+            if i in [0, 4]:
+                message.send('>Stage build in {0} sec'.format(50 - i * 10))
             sleep(10)
     if not stop_stage_build_flag:
-        message.send('>FIRE!!! 🔥')
         J = Jenkins(settings.JENKINS_URL,
                     username=settings.JENKINS_USERNAME,
                     password=settings.JENKINS_PASSWORD)
         my_job = J['stage']
         res = my_job.invoke()
-        message.send('>Started build {0}'.format(res))
+        message.send('> 🔥 Started build {0}'.format(res))
     else:
         message.send('>Stage build was halted')
     build_in_progress = False
