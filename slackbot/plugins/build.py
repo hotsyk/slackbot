@@ -46,3 +46,8 @@ def stage_build(message):
 def stop_stage_build(message):
     global stop_stage_build_flag
     stop_stage_build_flag = True
+
+
+@respond_to('sudo make me a sandwich')
+def sandwich(message):
+    message.reply('Sure!\n\n🍔')
