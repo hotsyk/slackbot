@@ -21,7 +21,6 @@ def stage_build(message):
 
     for i in xrange(5):
         if stop_stage_build_flag:
-            message.send('>Stopping stage build')
             break
         else:
             if i in [0, 4]:
@@ -35,7 +34,7 @@ def stage_build(message):
         res = my_job.invoke()
         message.send('> 🔥 Started build {0}'.format(res))
     else:
-        message.send('>Stage build was halted')
+        message.send('>⛔ Stage build was halted')
     build_in_progress = False
 
 
