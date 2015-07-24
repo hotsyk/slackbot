@@ -24,7 +24,7 @@ def stage_build(message):
             break
         else:
             if i in [0, 4]:
-                message.send('>Stage build in {0} sec'.format(50 - i * 10))
+                message.send('>🕐 Stage build in {0} sec'.format(50 - i * 10))
             sleep(10)
     if not stop_stage_build_flag:
         J = Jenkins(settings.JENKINS_URL,
