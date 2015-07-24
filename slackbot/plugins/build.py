@@ -25,7 +25,7 @@ def stage_build(message):
             break
         else:
             message.send('>Stage build in {0}'.format(5 - i))
-            sleep(5)
+            sleep(10)
     if not stop_stage_build_flag:
         message.send('>FIRE!!! 🔥')
         J = Jenkins(settings.JENKINS_URL,
@@ -42,6 +42,7 @@ def stage_build(message):
 @listen_to('fuck')
 @listen_to('no build')
 @listen_to('ohrana otmena')
+@listen_to('nonono')
 @respond_to('stop')
 def stop_stage_build(message):
     global stop_stage_build_flag
