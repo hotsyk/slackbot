@@ -50,4 +50,4 @@ def stop_stage_build(message):
 
 @respond_to('sudo make me a sandwich')
 def sandwich(message):
-    message.reply('Sure!\n\n🍔')
+    message.reply('Sure! I am on my way!')
