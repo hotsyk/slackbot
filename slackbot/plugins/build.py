@@ -45,9 +45,29 @@ def stage_build(message):
 @respond_to('stop')
 def stop_stage_build(message):
     global stop_stage_build_flag
-    stop_stage_build_flag = True
+    global build_in_progress
+
+    if build_in_progress:
+        stop_stage_build_flag = True
+        message.reply('Got it!')
+    else:
+        message.reply('Sorry, build already queued. \n'
+                      'But you can cancel stage build with '
+                      '"@buildbot: stop stage build".\n'
+                      'Check help for more information')
 
 
-@respond_to('sudo make me a sandwich')
-def sandwich(message):
-    message.reply('Sure! I am on my way!')
+@respond_to('stop stage build')
+def stop_running_build(message):
+    message.reply('Looking for active stage builds:')
+    J = Jenkins(settings.JENKINS_URL,
+                username=settings.JENKINS_USERNAME,
+                password=settings.JENKINS_PASSWORD)
+    my_job = J['stage']
+    builds = [i for i in my_job.get_build_ids()]
+    build = my_job.get_build(builds[0])
+    if build.is_running():
+        build.stop()
+        message.reply('Build #{0} was stopped'.format(builds[0]))
+    else:
+        message.reply('Running build was not found')
