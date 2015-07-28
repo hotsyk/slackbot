@@ -34,7 +34,32 @@ def stage_build(message):
         res = my_job.invoke()
         message.send('> 🔥 Started build {0}'.format(res))
         build_in_progress = False
-        return wait_till_end_of_build(message)
+
+        while my_job.is_queued():
+            sleep(5)
+
+        builds = [i for i in my_job.get_build_ids()]
+        build = my_job.get_build(builds[0])
+        build_started = build.is_running()
+
+        while build.is_running():
+            sleep(10)
+
+        if build_started:
+            status = build.get_status()
+            if status == 'SUCCESS':
+                message.send('>✅ Build "{0}" finished.\n>'
+                             'Check results here {1}'.format(
+                                 build.name, build.get_result_url()))
+            elif status == 'ABORTED':
+                message.send(
+                    '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
+                        build.name, build.get_result_url()))
+            else:
+                message.send(
+                    '>❗ Build "{0}" failed\n>Check results here {1}'.format(
+                        build.name, build.get_result_url()))
+
     else:
         message.send('>⛔ Stage build was halted')
         build_in_progress = False
@@ -75,33 +100,3 @@ def stop_running_build(message):
     else:
         message.reply('Running build was not found')
     return
-
-
-def wait_till_end_of_build(message):
-    J = Jenkins(settings.JENKINS_URL,
-                username=settings.JENKINS_USERNAME,
-                password=settings.JENKINS_PASSWORD)
-    my_job = J['stage']
-    sleep(15)
-
-    builds = [i for i in my_job.get_build_ids()]
-    build = my_job.get_build(builds[0])
-    build_started = build.is_running()
-
-    while build.is_running():
-        sleep(10)
-
-    if build_started:
-        status = build.get_status()
-        if status == 'SUCCESS':
-            message.send('>✅ Build "{0}" finished.\n>'
-                         'Check results here {1}'.format(
-                             build.name, build.get_result_url()))
-        elif status == 'ABORTED':
-            message.send(
-                '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
-                    build.name, build.get_result_url()))
-        else:
-            message.send(
-                '>❗ Build "{0}" failed\n>Check results here {1}'.format(
-                    build.name, build.get_result_url()))
