@@ -82,10 +82,9 @@ def wait_till_end_of_build(message):
                 username=settings.JENKINS_USERNAME,
                 password=settings.JENKINS_PASSWORD)
     my_job = J['stage']
-    builds = [i for i in my_job.get_build_ids()]
-
     sleep(15)
 
+    builds = [i for i in my_job.get_build_ids()]
     build = my_job.get_build(builds[0])
     build_started = build.is_running()
 
