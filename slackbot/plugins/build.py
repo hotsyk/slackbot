@@ -61,7 +61,7 @@ def stop_stage_build(message):
     return
 
 
-@respond_to('stop stage build')
+@respond_to('stop!')
 def stop_running_build(message):
     message.reply('Looking for active stage builds:')
     J = Jenkins(settings.JENKINS_URL,
