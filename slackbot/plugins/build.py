@@ -94,6 +94,10 @@ def wait_till_end_of_build(message):
             message.send('>✅ Build "{0}" finished.\n>'
                          'Check results here {1}'.format(
                              build.name, build.get_result_url()))
+        elif status == 'ABORTED':
+            message.send(
+                '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
+                    build.name, build.get_result_url()))
         else:
             message.send(
                 '>❗ Build "{0}" failed\n>Check results here {1}'.format(
