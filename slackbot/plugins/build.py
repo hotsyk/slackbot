@@ -54,14 +54,13 @@ def stop_stage_build(message):
         stop_stage_build_flag = True
         message.reply('Got it!')
     else:
-        message.reply('Sorry, build already queued. \n'
-                      'But you can cancel stage build with '
-                      '"@buildbot: stop stage build".\n'
-                      'Check help for more information')
+        message.reply('Sorry, no active countdowns. \n'
+                      'But if build is already in progress, you can stop it '
+                      '"@buildbot: terminate"')
     return
 
 
-@respond_to('stop!')
+@respond_to('terminate')
 def stop_running_build(message):
     message.reply('Looking for active stage builds:')
     J = Jenkins(settings.JENKINS_URL,
