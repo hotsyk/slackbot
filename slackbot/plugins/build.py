@@ -18,7 +18,7 @@ def stage_build(message):
 
     build_in_progress = True
     stop_stage_build_flag = False
-
+    message.reply('Roger that')
     for i in xrange(5):
         if stop_stage_build_flag:
             break
@@ -78,7 +78,7 @@ def stop_stage_build(message):
 
     if build_in_progress:
         stop_stage_build_flag = True
-        message.reply('Got it!')
+        message.reply('Roger that')
     else:
         message.reply('Looking for active stage builds....')
         J = Jenkins(settings.JENKINS_URL,
@@ -96,3 +96,33 @@ def stop_stage_build(message):
             message.reply('Build #{0} was terminated.'.format(builds[0]))
         else:
             message.reply('Active build was not found.')
+
+
+@listen_to('stage status')
+def stage_status(message):
+    global stop_stage_build_flag
+    global build_in_progress
+
+    J = Jenkins(settings.JENKINS_URL,
+                username=settings.JENKINS_USERNAME,
+                password=settings.JENKINS_PASSWORD)
+    my_job = J['stage']
+
+    if build_in_progress or my_job.is_queued():
+        message.send('>🕐 Build is enqueued')
+    else:
+        builds = [i for i in my_job.get_build_ids()]
+        build = my_job.get_build(builds[0])
+        status = build.get_status()
+        if status == 'SUCCESS':
+            message.send(
+                '>✅ Last build "{0}" was a huge success: {1}'.format(
+                    build.name, build.get_result_url()))
+        elif status == 'ABORTED':
+            message.send(
+                '>❌ Last build "{0}" was aborted: {1}'.format(
+                    build.name, build.get_result_url()))
+        else:
+            message.send(
+                '>❗ Last build "{0}" failed: {1}'.format(
+                    build.name, build.get_result_url()))
