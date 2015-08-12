@@ -99,6 +99,7 @@ def stop_stage_build(message):
 
 
 @listen_to('stage status')
+@respond_to('stage status')
 def stage_status(message):
     global stop_stage_build_flag
     global build_in_progress
@@ -111,18 +112,20 @@ def stage_status(message):
     if build_in_progress or my_job.is_queued():
         message.send('>🕐 Build is enqueued')
     else:
-        builds = [i for i in my_job.get_build_ids()]
-        build = my_job.get_build(builds[0])
+        build = my_job.get_last_build()
         status = build.get_status()
         if status == 'SUCCESS':
             message.send(
-                '>✅ Last build "{0}" was a huge success: {1}'.format(
-                    build.name, build.get_result_url()))
+                '>✅ Last build "{0}" was a success at {1}: {2}'.format(
+                    build.name, build.get_timestamp(),
+                    build.get_result_url()))
         elif status == 'ABORTED':
             message.send(
-                '>❌ Last build "{0}" was aborted: {1}'.format(
-                    build.name, build.get_result_url()))
+                '>❌ Last build "{0}" was aborted at {1}: {2}'.format(
+                    build.name, build.get_timestamp(),
+                    build.get_result_url()))
         else:
             message.send(
-                '>❗ Last build "{0}" failed: {1}'.format(
-                    build.name, build.get_result_url()))
+                '>❗ Last build "{0}" failed at {1}: {2}'.format(
+                    build.name, build.get_timestamp(),
+                    build.get_result_url()))
