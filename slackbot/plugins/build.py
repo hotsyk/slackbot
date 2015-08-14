@@ -1,4 +1,7 @@
 # coding: utf-8
+import datetime
+import pytz
+
 from time import sleep
 
 from jenkinsapi.jenkins import Jenkins
@@ -98,6 +101,22 @@ def stop_stage_build(message):
             message.reply('Active build was not found.')
 
 
+def pretty_time_delta(seconds):
+    seconds = int(seconds)
+    days, seconds = divmod(seconds, 86400)
+    hours, seconds = divmod(seconds, 3600)
+    minutes, seconds = divmod(seconds, 60)
+    if days > 0:
+        return '%d day(s) %d hour(s) %d min(s) %d sec(s)' % (days, hours,
+                                                             minutes, seconds)
+    elif hours > 0:
+        return '%d hour(s) %d min(s) %d sec(s)' % (hours, minutes, seconds)
+    elif minutes > 0:
+        return '%d min(s) %d sec(s)' % (minutes, seconds)
+    else:
+        return '%d sec(s)' % (seconds,)
+
+
 @listen_to('stage status')
 @respond_to('stage status')
 def stage_status(message):
@@ -114,18 +133,25 @@ def stage_status(message):
     else:
         build = my_job.get_last_build()
         status = build.get_status()
-        if status == 'SUCCESS':
+        time_since_build = pretty_time_delta(
+            (datetime.datetime.now(pytz.utc) -
+             build.get_timestamp()).total_seconds()
+        )
+        if build.is_running():
+            message.send('>🕐 Build "{0}" is in progress: {1}'.format(
+                         build.name, build.get_result_url()))
+        elif status == 'SUCCESS':
             message.send(
-                '>✅ Last build "{0}" was a success at {1}: {2}'.format(
-                    build.name, build.get_timestamp(),
+                '>✅ Last build "{0}" was succeeded {1} ago: {2}'.format(
+                    build.name, time_since_build,
                     build.get_result_url()))
         elif status == 'ABORTED':
             message.send(
-                '>❌ Last build "{0}" was aborted at {1}: {2}'.format(
-                    build.name, build.get_timestamp(),
+                '>❌ Last build "{0}" was aborted {1} ago: {2}'.format(
+                    build.name, time_since_build,
                     build.get_result_url()))
         else:
             message.send(
-                '>❗ Last build "{0}" failed at {1}: {2}'.format(
-                    build.name, build.get_timestamp(),
+                '>❗ Last build "{0}" failed {1} ago: {2}'.format(
+                    build.name, time_since_build,
                     build.get_result_url()))
