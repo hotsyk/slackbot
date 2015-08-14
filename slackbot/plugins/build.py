@@ -19,9 +19,19 @@ def stage_build(message):
     global stop_stage_build_flag
     global build_in_progress
 
+    J = Jenkins(settings.JENKINS_URL,
+                username=settings.JENKINS_USERNAME,
+                password=settings.JENKINS_PASSWORD)
+    my_job = J['stage']
+
+    build = my_job.get_last_build()
+    if build.is_running() or my_job.is_queued():
+        return stage_status(message)
+
     build_in_progress = True
     stop_stage_build_flag = False
     message.reply('Roger that')
+
     for i in xrange(5):
         if stop_stage_build_flag:
             break
@@ -32,23 +42,18 @@ def stage_build(message):
     if not stop_stage_build_flag:
         build_in_progress = False
 
-        J = Jenkins(settings.JENKINS_URL,
-                    username=settings.JENKINS_USERNAME,
-                    password=settings.JENKINS_PASSWORD)
-        my_job = J['stage']
         my_job.invoke()
 
         while my_job.is_queued():
             sleep(5)
 
-        builds = [i for i in my_job.get_build_ids()]
-        build = my_job.get_build(builds[0])
-        message.send('> 🔥 Started build #{0}'.format(builds[0]))
+        build = my_job.get_last_build()
+        message.send('> 🔥 Started build #{0}'.format(build))
 
         while build.is_running():
             sleep(10)
 
-        build = my_job.get_build(builds[0])
+        build = my_job.get_last_build()
         status = build.get_status()
         if status == 'SUCCESS':
             message.send('>✅ Build "{0}" finished.\n>'
@@ -92,11 +97,10 @@ def stop_stage_build(message):
         while my_job.is_queued():
             sleep(5)
 
-        builds = [i for i in my_job.get_build_ids()]
-        build = my_job.get_build(builds[0])
+        build = my_job.get_last_build()
         if build.is_running():
             build.stop()
-            message.reply('Build #{0} was terminated.'.format(builds[0]))
+            message.reply('Build #{0} was terminated.'.format(build))
         else:
             message.reply('Active build was not found.')
 
@@ -145,7 +149,7 @@ def stage_status(message):
         elif status == 'SUCCESS':
             message.send(
                 '>✅ Last build "{0}" was started {1} ago and '
-                'was succeeded: {2}'.format(
+                'had succeeded: {2}'.format(
                     build.name, time_since_build,
                     build.get_result_url()))
         elif status == 'ABORTED':
@@ -156,7 +160,7 @@ def stage_status(message):
                     build.get_result_url()))
         else:
             message.send(
-                '>❗ Last build "{0}" started {1} ago and was failed: '
+                '>❗ Last build "{0}" started {1} ago and had failed: '
                 '{2}'.format(
                     build.name, time_since_build,
                     build.get_result_url()))
