@@ -25,7 +25,7 @@ def stage_build(message):
     my_job = J['stage']
 
     build = my_job.get_last_build()
-    if build.is_running() or my_job.is_queued():
+    if build.is_running() or my_job.is_queued() or build_in_progress:
         return stage_status(message)
 
     build_in_progress = True
