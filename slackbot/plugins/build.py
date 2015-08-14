@@ -138,8 +138,10 @@ def stage_status(message):
              build.get_timestamp()).total_seconds()
         )
         if build.is_running():
-            message.send('>🕐 Build "{0}" is in progress: {1}'.format(
-                         build.name, build.get_result_url()))
+            message.send('>🕐 Build "{0}" is in progress. '
+                         'It was started {1} ago: {2}'.format(
+                             build.name, time_since_build,
+                             build.get_result_url()))
         elif status == 'SUCCESS':
             message.send(
                 '>✅ Last build "{0}" was started {1} ago and '
