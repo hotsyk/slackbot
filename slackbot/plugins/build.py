@@ -142,16 +142,19 @@ def stage_status(message):
                          build.name, build.get_result_url()))
         elif status == 'SUCCESS':
             message.send(
-                '>✅ Last build "{0}" was succeeded {1} ago: {2}'.format(
+                '>✅ Last build "{0}" was started {1} ago and '
+                'was succeeded: {2}'.format(
                     build.name, time_since_build,
                     build.get_result_url()))
         elif status == 'ABORTED':
             message.send(
-                '>❌ Last build "{0}" was aborted {1} ago: {2}'.format(
+                '>❌ Last build "{0}" was started {1} ago and was aborted: '
+                '{2}'.format(
                     build.name, time_since_build,
                     build.get_result_url()))
         else:
             message.send(
-                '>❗ Last build "{0}" failed {1} ago: {2}'.format(
+                '>❗ Last build "{0}" started {1} ago and was failed: '
+                '{2}'.format(
                     build.name, time_since_build,
                     build.get_result_url()))
