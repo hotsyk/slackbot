@@ -14,6 +14,7 @@ stop_stage_build_flag = False
 build_in_progress = False
 
 
+@listen_to('stage build')
 @respond_to('stage build')
 def stage_build(message):
     global stop_stage_build_flag
@@ -58,16 +59,16 @@ def stage_build(message):
         if status == 'SUCCESS':
             message.send('>✅ Build "{0}" finished.\n>'
                          'Check results here {1}'.format(
-                             build.name, build.get_result_url()))
-            stage_monitor_status(message)
+                             build.name, build.baseurl))
+            ikarus_status(message, build.buildno)
         elif status == 'ABORTED':
             message.send(
                 '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
-                    build.name, build.get_result_url()))
+                    build.name, build.baseurl))
         else:
             message.send(
                 '>❗ Build "{0}" failed\n>Check results here {1}'.format(
-                    build.name, build.get_result_url()))
+                    build.name, build.baseurl))
 
     else:
         message.send('>⛔ Stage build was halted')
@@ -101,7 +102,7 @@ def stop_stage_build(message):
         build = my_job.get_last_build()
         if build.is_running():
             build.stop()
-            message.reply('Build #{0} was terminated.'.format(build))
+            message.reply('Stage build #{0} was terminated.'.format(build))
         else:
             message.reply('Active build was not found.')
 
@@ -134,7 +135,7 @@ def stage_status(message):
     my_job = J['stage']
 
     if build_in_progress or my_job.is_queued():
-        message.send('>🕐 Build is enqueued')
+        message.send('>🕐 Stage build is enqueued')
     else:
         build = my_job.get_last_build()
         status = build.get_status()
@@ -146,45 +147,71 @@ def stage_status(message):
             message.send('>🕐 Build "{0}" is in progress. '
                          'It was started {1} ago: {2}'.format(
                              build.name, time_since_build,
-                             build.get_result_url()))
+                             build.baseurl))
         elif status == 'SUCCESS':
             message.send(
                 '>✅ Last build "{0}" was started {1} ago and '
                 'had succeeded: {2}'.format(
                     build.name, time_since_build,
-                    build.get_result_url()))
+                    build.baseurl))
         elif status == 'ABORTED':
             message.send(
                 '>❌ Last build "{0}" was started {1} ago and was aborted: '
                 '{2}'.format(
                     build.name, time_since_build,
-                    build.get_result_url()))
+                    build.baseurl))
         else:
             message.send(
                 '>❗ Last build "{0}" started {1} ago and had failed: '
                 '{2}'.format(
                     build.name, time_since_build,
-                    build.get_result_url()))
+                    build.baseurl))
+
+
+def _get_ikarus_build(stage_build_no, ikarus_job):
+    for ib in ikarus_job.get_build_ids()[:10]:
+        for action in ikarus_job.get_build[ib].get_actions()['causes']:
+            if action.get('upstreamBuild') == stage_build_no:
+                return ib
+    return None
 
 
 @listen_to('ikarus status')
 @respond_to('ikarus status')
-def stage_monitor_status(message):
-    monitor_job = 'ikarus-stage-monitor'
-    ikarus_notify_users = '@dzvezdov, @yrazdolskiy, @kaydanowski'
+def ikarus_status(message, stage_build_no=None):
     J = Jenkins(settings.JENKINS_URL,
                 username=settings.JENKINS_USERNAME,
                 password=settings.JENKINS_PASSWORD)
-    my_job = J[monitor_job]
-    if my_job.is_queued():
-        while my_job.is_queued():
-            sleep(10)
 
-    build = my_job.get_last_build()
+    ikarus_job = 'ikarus-stage-monitor'
+    ikarus_notify_users = '@dzvezdov, @yrazdolskiy, @kaydanowski'
+
+    my_job = J[ikarus_job]
+
+    if not stage_build_no:
+        if my_job.is_queued():
+            message.send('>🕐 Ikarus build is enqueued')
+
+    while my_job.is_queued():
+        sleep(10)
+
+    if stage_build_no:
+        build = _get_ikarus_build(stage_build_no, my_job)
+        if not build:
+            message.send('>❌ Not found Ikarus monitor build for upstream '
+                         'stage build {0}'.format(stage_build_no))
+            return
+    else:
+        build = my_job.get_last_build()
+
     while build.is_running():
         sleep(10)
 
-    build = my_job.get_last_build()
+    if stage_build_no:
+        build = _get_ikarus_build(stage_build_no, my_job)
+    else:
+        build = my_job.get_last_build()
+
     status = build.get_status()
     time_since_build = pretty_time_delta(
         (datetime.datetime.now(pytz.utc) -
@@ -194,19 +221,19 @@ def stage_monitor_status(message):
         message.send('>🕐 Build "{0}" is in progress. '
                      'It was started {1} ago: {2}'.format(
                          build.name, time_since_build,
-                         build.get_result_url()))
+                         build.baseurl))
     elif status == 'SUCCESS':
         message.send(
             '>✅ Last build "{0}" was started {1} ago and '
             'had succeeded: {2}'.format(
                 build.name, time_since_build,
-                build.get_result_url()))
+                build.baseurl))
     elif status == 'ABORTED':
         message.send(
             '>❌ Last build "{0}" was started {1} ago and was aborted: '
             '{2}\n ATTN: {3}'.format(
                 build.name, time_since_build,
-                build.get_result_url(),
+                build.baseurl,
                 ikarus_notify_users
             ))
     else:
@@ -214,6 +241,6 @@ def stage_monitor_status(message):
             '>❗ Last build "{0}" started {1} ago and had failed: '
             '{2}\n ATTN: {3}'.format(
                 build.name, time_since_build,
-                build.get_result_url(),
+                build.baseurl,
                 ikarus_notify_users
             ))
