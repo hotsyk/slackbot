@@ -176,8 +176,9 @@ def stage_monitor_status(message):
                 username=settings.JENKINS_USERNAME,
                 password=settings.JENKINS_PASSWORD)
     my_job = J[monitor_job]
-    while my_job.is_queued():
-        sleep(10)
+    if my_job.is_queued():
+        while my_job.is_queued():
+            sleep(10)
 
     build = my_job.get_last_build()
     while build.is_running():
