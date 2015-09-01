@@ -207,10 +207,7 @@ def ikarus_status(message, stage_build_no=None):
     while build.is_running():
         sleep(10)
 
-    if stage_build_no:
-        build = _get_ikarus_build(stage_build_no, my_job)
-    else:
-        build = my_job.get_last_build()
+    build = my_job.get_build(build.buildno)
 
     status = build.get_status()
     time_since_build = pretty_time_delta(
