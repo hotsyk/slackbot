@@ -55,19 +55,21 @@ def stage_build(message):
 
         build = my_job.get_last_build()
         status = build.get_status()
+        result_url = build.get_result_url()
+        result_url = result_url.replace('/testReport/api/python', '')
         if status == 'SUCCESS':
             message.send('>✅ Build "{0}" finished.\n>'
                          'Check results here {1}'.format(
-                             build.name, build.get_result_url()))
+                             build.name, result_url))
             stage_monitor_status(message)
         elif status == 'ABORTED':
             message.send(
                 '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
-                    build.name, build.get_result_url()))
+                    build.name, result_url))
         else:
             message.send(
                 '>❗ Build "{0}" failed\n>Check results here {1}'.format(
-                    build.name, build.get_result_url()))
+                    build.name, result_url))
 
     else:
         message.send('>⛔ Stage build was halted')
@@ -194,19 +196,19 @@ def stage_monitor_status(message):
         message.send('>🕐 Build "{0}" is in progress. '
                      'It was started {1} ago: {2}'.format(
                          build.name, time_since_build,
-                         build.get_result_url()))
+                         result_url))
     elif status == 'SUCCESS':
         message.send(
             '>✅ Last build "{0}" was started {1} ago and '
             'had succeeded: {2}'.format(
                 build.name, time_since_build,
-                build.get_result_url()))
+                result_url))
     elif status == 'ABORTED':
         message.send(
             '>❌ Last build "{0}" was started {1} ago and was aborted: '
             '{2}\n ATTN: {3}'.format(
                 build.name, time_since_build,
-                build.get_result_url(),
+                result_url,
                 ikarus_notify_users
             ))
     else:
@@ -214,6 +216,6 @@ def stage_monitor_status(message):
             '>❗ Last build "{0}" started {1} ago and had failed: '
             '{2}\n ATTN: {3}'.format(
                 build.name, time_since_build,
-                build.get_result_url(),
+                result_url,
                 ikarus_notify_users
             ))
