@@ -59,6 +59,7 @@ def stage_build(message):
             message.send('>✅ Build "{0}" finished.\n>'
                          'Check results here {1}'.format(
                              build.name, build.get_result_url()))
+            stage_monitor_status(message)
         elif status == 'ABORTED':
             message.send(
                 '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
@@ -170,6 +171,7 @@ def stage_status(message):
 @respond_to('ikarus status')
 def stage_monitor_status(message):
     monitor_job = 'ikarus-stage-monitor'
+    ikarus_notify_users = '@dzvezdov, @yrazdolskiy, @kaydanowski'
     J = Jenkins(settings.JENKINS_URL,
                 username=settings.JENKINS_USERNAME,
                 password=settings.JENKINS_PASSWORD)
@@ -201,13 +203,16 @@ def stage_monitor_status(message):
     elif status == 'ABORTED':
         message.send(
             '>❌ Last build "{0}" was started {1} ago and was aborted: '
-            '{2}'.format(
+            '{2}\n ATTN: {3}'.format(
                 build.name, time_since_build,
-                build.get_result_url()))
+                build.get_result_url(),
+                ikarus_notify_users
+            ))
     else:
         message.send(
             '>❗ Last build "{0}" started {1} ago and had failed: '
-            '{2}'.format(
+            '{2}\n ATTN: {3}'.format(
                 build.name, time_since_build,
-                build.get_result_url()))
-
+                build.get_result_url(),
+                ikarus_notify_users
+            ))
