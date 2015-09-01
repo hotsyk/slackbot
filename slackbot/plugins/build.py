@@ -170,9 +170,10 @@ def stage_status(message):
 
 def _get_ikarus_build(stage_build_no, ikarus_job):
     for ib in ikarus_job.get_build_ids():
-        for action in ikarus_job.get_build(ib).get_actions()['causes']:
+        build = ikarus_job.get_build(ib)
+        for action in build.get_actions()['causes']:
             if action.get('upstreamBuild') == stage_build_no:
-                return ib
+                return build
     return None
 
 
