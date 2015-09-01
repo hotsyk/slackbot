@@ -164,3 +164,50 @@ def stage_status(message):
                 '{2}'.format(
                     build.name, time_since_build,
                     build.get_result_url()))
+
+
+@listen_to('ikarus status')
+@respond_to('ikarus status')
+def stage_monitor_status(message):
+    monitor_job = 'ikarus-stage-monitor'
+    J = Jenkins(settings.JENKINS_URL,
+                username=settings.JENKINS_USERNAME,
+                password=settings.JENKINS_PASSWORD)
+    my_job = J[monitor_job]
+    while my_job.is_queued():
+        sleep(10)
+
+    build = my_job.get_last_build()
+    while build.is_running():
+        sleep(10)
+
+    build = my_job.get_last_build()
+    status = build.get_status()
+    time_since_build = pretty_time_delta(
+        (datetime.datetime.now(pytz.utc) -
+         build.get_timestamp()).total_seconds()
+    )
+    if build.is_running():
+        message.send('>🕐 Build "{0}" is in progress. '
+                     'It was started {1} ago: {2}'.format(
+                         build.name, time_since_build,
+                         build.get_result_url()))
+    elif status == 'SUCCESS':
+        message.send(
+            '>✅ Last build "{0}" was started {1} ago and '
+            'had succeeded: {2}'.format(
+                build.name, time_since_build,
+                build.get_result_url()))
+    elif status == 'ABORTED':
+        message.send(
+            '>❌ Last build "{0}" was started {1} ago and was aborted: '
+            '{2}'.format(
+                build.name, time_since_build,
+                build.get_result_url()))
+    else:
+        message.send(
+            '>❗ Last build "{0}" started {1} ago and had failed: '
+            '{2}'.format(
+                build.name, time_since_build,
+                build.get_result_url()))
+
