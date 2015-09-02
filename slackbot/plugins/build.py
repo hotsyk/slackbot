@@ -184,7 +184,11 @@ def ikarus_status(message, stage_build_no=None):
                 username=settings.JENKINS_USERNAME,
                 password=settings.JENKINS_PASSWORD)
 
-    ikarus_job = 'ikarus-stage-monitor'
+    if stage_build_no:
+        ikarus_job = 'ikarus-stage-regression-bvt'
+    else:
+        ikarus_job = 'ikarus-stage-monitor'
+
     ikarus_notify_users = '@dzvezdov, @yrazdolskiy, @kaydanowski'
 
     my_job = J[ikarus_job]
