@@ -209,8 +209,9 @@ def ikarus_status(message, stage_build_no=None):
     else:
         build = my_job.get_last_build()
 
-    while build.is_running():
-        sleep(10)
+    if stage_build_no:
+        while build.is_running():
+            sleep(10)
 
     build = my_job.get_build(build.buildno)
 
