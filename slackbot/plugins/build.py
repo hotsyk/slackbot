@@ -135,7 +135,7 @@ def stop_stage_build(message):
 
     if build_in_progress:
         stop_stage_build_flag = True
-        message.reply('Roger that')
+        message.reply(random.choice(quotes))
     else:
         message.reply('Looking for active stage builds....')
         J = Jenkins(settings.JENKINS_URL,
