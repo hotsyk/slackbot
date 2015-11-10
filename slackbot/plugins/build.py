@@ -15,7 +15,7 @@ stop_stage_build_flag = False
 build_in_progress = False
 
 quotes = [
-    'Hahahahaha. Oh wait you’re serious. Let me laugh even harder.',
+    'Hahahahaha. Oh wait you\'re serious. Let me laugh even harder.',
     'Anything less than immortality is a complete waste of time.',
     'Shut up baby, I know it!',
     'I\'m back baby',
@@ -28,7 +28,7 @@ quotes = [
     'Wearily I sit here, pain and misery my only companions.',
     'I won\'t enjoy it.',
     'Life! Don\'t talk to me about life.',
-    'It’s not my fault.',
+    'It\'s not my fault.',
     'Do. Or do not. There is no try.',
     'Somebody has to save our skins.',
     'In my experience there is no such thing as luck.',
