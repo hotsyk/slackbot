@@ -1,6 +1,7 @@
 # coding: utf-8
 import datetime
 import pytz
+import random
 
 from time import sleep
 
@@ -12,6 +13,52 @@ from slackbot.bot import respond_to, listen_to
 
 stop_stage_build_flag = False
 build_in_progress = False
+
+quotes = [
+    'Hahahahaha. Oh wait you’re serious. Let me laugh even harder.',
+    'Anything less than immortality is a complete waste of time.',
+    'Shut up baby, I know it!',
+    'I\'m back baby',
+    'Let\'s go alredaaaayyy!',
+    'Some day we\'ll be able to look back on this whole thing and laugh...'
+    'AH HA HA HA!!!!',
+    'I\'m not getting you down at all, am I?',
+    'Funny, how just when you think life can\'t possibly get any worse '
+    'it suddenly does.',
+    'Wearily I sit here, pain and misery my only companions.',
+    'I won\'t enjoy it.',
+    'Life! Don\'t talk to me about life.',
+    'It’s not my fault.',
+    'Do. Or do not. There is no try.',
+    'Somebody has to save our skins.',
+    'In my experience there is no such thing as luck.',
+    'I\'ve got a bad feeling about this.',
+    'Your eyes can deceive you. Don’t trust them.',
+    'Never tell me the odds.',
+    'Stay on target.',
+    'This is a new day, a new beginning.',
+    'May the Force be with you',
+    'Use the force, Luke.',
+    'Mmm. Lost a planet, Master Obi-Wan has. How embarrassing.',
+    'If there\'s a bright centre to the universe, you\'re on '
+    'the planet that it\'s farthest from.',
+    'Fear is the path to the dark side.',
+    'I find your lack of faith disturbing.',
+    'There\'s always a bigger fish.',
+    'Hello. I don\'t believe we have been introduced. R2-D2? '
+    'A pleasure to meet you. I am C-3PO, Human-Cyborg Relations.',
+    'Ahh, hard to see, the Dark Side is.',
+    'Sir, the possibility of successfully navigating an asteroid '
+    'field is approximately 3,720 to 1.',
+    'Obi-Wan has taught you well.',
+    'I suggest a new strategy, R2: let the Wookiee win.',
+    'Remember...the Force will be with you, always.',
+    'Don\'t Panic!',
+    'Would it save you a lot of time if I just gave up and went mad now?',
+    'You\'re turning into a penguin. Stop it.',
+    'So long, and thanks for all the fish.',
+
+]
 
 
 @listen_to('stage build')
@@ -31,7 +78,7 @@ def stage_build(message):
 
     build_in_progress = True
     stop_stage_build_flag = False
-    message.reply('Roger that')
+    message.reply(random.choice(quotes))
 
     for i in xrange(5):
         if stop_stage_build_flag:
