@@ -236,7 +236,7 @@ def ikarus_status(message, stage_build_no=None):
     else:
         ikarus_job = 'ikarus-stage-monitor'
 
-    ikarus_notify_users = '@dzvezdov, @yrazdolskiy, @kaydanowski'
+    ikarus_notify_users = '@dzvezdov, @kaydanowski'
 
     my_job = J[ikarus_job]
 
