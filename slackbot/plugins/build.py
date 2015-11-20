@@ -23,17 +23,12 @@ quotes = [
     'Some day we\'ll be able to look back on this whole thing and laugh...'
     'AH HA HA HA!!!!',
     'I\'m not getting you down at all, am I?',
-    'Funny, how just when you think life can\'t possibly get any worse '
-    'it suddenly does.',
     'Wearily I sit here, pain and misery my only companions.',
-    'I won\'t enjoy it.',
-    'Life! Don\'t talk to me about life.',
     'It\'s not my fault.',
     'Do. Or do not. There is no try.',
-    'Somebody has to save our skins.',
     'In my experience there is no such thing as luck.',
     'I\'ve got a bad feeling about this.',
-    'Your eyes can deceive you. Don’t trust them.',
+    'Your eyes can deceive you. Don\'t trust them.',
     'Never tell me the odds.',
     'Stay on target.',
     'This is a new day, a new beginning.',
@@ -57,6 +52,24 @@ quotes = [
     'Would it save you a lot of time if I just gave up and went mad now?',
     'You\'re turning into a penguin. Stop it.',
     'So long, and thanks for all the fish.',
+    'All those moments will be lost in time… like tears in rain.',
+    'Bond. James Bond.',
+    'Do I look like I give a damn?',
+    'Everybody runs, Fletch.',
+    'Fasten your seat belts, it\'s going to be a bumpy night!',
+    'Go ahead, make my day. ',
+    'I am Groot',
+    'I drink your milkshake!',
+    'I\'ll be back.  ',
+    'I\'m gonna make him an offer he can\'t refuse.',
+    'In case I don\'t see ya, good afternoon, good evening, and good night!',
+    'Just keep swimming.',
+    'Life is a box of chocolates, Forrest. '
+    'You never know what you\'re gonna get.',
+    'Louis, I think this is the beginning of a beautiful friendship. ',
+    'Nobody\'s perfect.  ',
+    'To infinity… and beyond.',
+    'Why so serious?',
 
 ]
 
