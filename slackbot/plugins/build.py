@@ -35,16 +35,16 @@ quotes = [
     'May the Force be with you',
     'Use the force, Luke.',
     'Mmm. Lost a planet, Master Obi-Wan has. How embarrassing.',
-    'If there\'s a bright centre to the universe, you\'re on '
-    'the planet that it\'s farthest from.',
+    'If there\'s a bright centre to the universe, '
+    'you\'re on the planet that it\'s farthest from.',
     'Fear is the path to the dark side.',
     'I find your lack of faith disturbing.',
     'There\'s always a bigger fish.',
     'Hello. I don\'t believe we have been introduced. R2-D2? '
     'A pleasure to meet you. I am C-3PO, Human-Cyborg Relations.',
     'Ahh, hard to see, the Dark Side is.',
-    'Sir, the possibility of successfully navigating an asteroid '
-    'field is approximately 3,720 to 1.',
+    'Sir, the possibility of successfully navigating an asteroid field '
+    'is approximately 3,720 to 1.',
     'Obi-Wan has taught you well.',
     'I suggest a new strategy, R2: let the Wookiee win.',
     'Remember...the Force will be with you, always.',
@@ -57,17 +57,17 @@ quotes = [
     'Do I look like I give a damn?',
     'Everybody runs, Fletch.',
     'Fasten your seat belts, it\'s going to be a bumpy night!',
-    'Go ahead, make my day. ',
+    'Go ahead, make my day.',
     'I am Groot',
     'I drink your milkshake!',
-    'I\'ll be back.  ',
+    'I\'ll be back.',
     'I\'m gonna make him an offer he can\'t refuse.',
     'In case I don\'t see ya, good afternoon, good evening, and good night!',
     'Just keep swimming.',
     'Life is a box of chocolates, Forrest. '
     'You never know what you\'re gonna get.',
-    'Louis, I think this is the beginning of a beautiful friendship. ',
-    'Nobody\'s perfect.  ',
+    'Louis, I think this is the beginning of a beautiful friendship.',
+    'Nobody\'s perfect.',
     'To infinity… and beyond.',
     'Why so serious?',
 
@@ -91,7 +91,10 @@ def stage_build(message):
 
     build_in_progress = True
     stop_stage_build_flag = False
-    message.reply(random.choice(quotes))
+    try:
+        message.reply(random.choice(quotes))
+    except:
+        message.reply('Roger that')
 
     for i in xrange(5):
         if stop_stage_build_flag:
@@ -148,7 +151,10 @@ def stop_stage_build(message):
 
     if build_in_progress:
         stop_stage_build_flag = True
-        message.reply(random.choice(quotes))
+        try:
+            message.reply(random.choice(quotes))
+        except:
+            message.reply('Roger that')
     else:
         message.reply('Looking for active stage builds....')
         J = Jenkins(settings.JENKINS_URL,
