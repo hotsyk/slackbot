@@ -335,7 +335,6 @@ def ikarus_status(message, stage_build_no=None):
 @respond_to('block stage (.*)')
 def block_stage(message, block_minutes=5):
     global block_build
-    print block_minutes
     try:
         block_build = int(block_minutes)
     except:
