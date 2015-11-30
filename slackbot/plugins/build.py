@@ -344,10 +344,10 @@ def block_stage(message, block_minutes=5):
     message.send(u'>⛔ Build is currently blocked for '
                   '{0} minutes.'.format(block_build))
     sleep(block_build * 60)
-    message.send(u'>✅ Build is now unblocked.')
 
     if block_build == block_minutes:
         block_build = False
+        message.send(u'>✅ Build is now unblocked.')
 
 
 @listen_to('unblock stage')
