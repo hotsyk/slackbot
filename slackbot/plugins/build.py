@@ -13,6 +13,7 @@ from slackbot.bot import respond_to, listen_to
 
 stop_stage_build_flag = False
 build_in_progress = False
+block_build = False
 
 quotes = [
     'Hahahahaha. Oh wait you\'re serious. Let me laugh even harder.',
@@ -79,6 +80,12 @@ quotes = [
 def stage_build(message):
     global stop_stage_build_flag
     global build_in_progress
+    global block_build
+
+    if block_build:
+        message.reply('>⛔ Sorry, but build is currently blocked. '
+                      'Please wait {0} minutes'.format(block_build))
+        return
 
     J = Jenkins(settings.JENKINS_URL,
                 username=settings.JENKINS_USERNAME,
@@ -149,6 +156,11 @@ def stop_stage_build(message):
     global stop_stage_build_flag
     global build_in_progress
 
+    if block_build:
+        message.reply('>⛔ Sorry, but build is currently blocked. '
+                      'Please wait {0} minutes'.format(block_build))
+        return
+
     if build_in_progress:
         stop_stage_build_flag = True
         try:
@@ -194,6 +206,7 @@ def pretty_time_delta(seconds):
 def stage_status(message):
     global stop_stage_build_flag
     global build_in_progress
+    global block_build
 
     J = Jenkins(settings.JENKINS_URL,
                 username=settings.JENKINS_USERNAME,
@@ -203,6 +216,10 @@ def stage_status(message):
     if build_in_progress or my_job.is_queued():
         message.send('>🕐 Stage build is enqueued')
     else:
+        if block_build:
+            message.reply('>⛔ Build is currently blocked. '
+                          'Please wait {0} minutes'.format(block_build))
+
         build = my_job.get_last_build()
         status = build.get_status()
         time_since_build = pretty_time_delta(
@@ -313,3 +330,16 @@ def ikarus_status(message, stage_build_no=None):
                 build.baseurl,
                 ikarus_notify_users
             ))
+
+@listen_to('block stage')
+@respond_to('block stage')
+def block_stage(message, block_minutes=5):
+    global block_build
+
+    block_build = int(block_minutes)
+    message.reply('>⛔ Build is currently blocked for '
+                  '{0} minutes'.format(block_build))
+    sleep(block_build * 60)
+
+    block_build = False
+
