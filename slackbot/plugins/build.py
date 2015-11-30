@@ -83,7 +83,7 @@ def stage_build(message):
     global block_build
 
     if block_build:
-        message.reply('>⛔ Sorry, but build is currently blocked. '
+        message.reply(u'⛔ Sorry, but build is currently blocked. '
                       'Please wait {0} minutes'.format(block_build))
         return
 
@@ -157,7 +157,7 @@ def stop_stage_build(message):
     global build_in_progress
 
     if block_build:
-        message.reply('>⛔ Sorry, but build is currently blocked. '
+        message.reply(u'⛔ Sorry, but build is currently blocked. '
                       'Please wait {0} minutes'.format(block_build))
         return
 
@@ -217,7 +217,7 @@ def stage_status(message):
         message.send('>🕐 Stage build is enqueued')
     else:
         if block_build:
-            message.reply('>⛔ Build is currently blocked. '
+            message.send(u'⛔ Build is currently blocked. '
                           'Please wait {0} minutes'.format(block_build))
 
         build = my_job.get_last_build()
@@ -337,7 +337,7 @@ def block_stage(message, block_minutes=5):
     global block_build
 
     block_build = int(block_minutes)
-    message.reply('>⛔ Build is currently blocked for '
+    message.send(u'>⛔ Build is currently blocked for '
                   '{0} minutes'.format(block_build))
     sleep(block_build * 60)
 
