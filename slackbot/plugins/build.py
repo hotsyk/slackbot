@@ -335,7 +335,7 @@ def ikarus_status(message, stage_build_no=None):
 @respond_to('block stage (*)')
 def block_stage(message, block_minutes=5):
     global block_build
-    print block_minutes
+
     try:
         block_build = int(block_minutes)
     except:
@@ -345,6 +345,7 @@ def block_stage(message, block_minutes=5):
     message.send(u'>⛔ Build is currently blocked for '
                   '{0} minutes.'.format(block_build))
     sleep(block_build * 60)
+    message.send(u'>✅ Build is now unblocked.')
 
     block_build = False
 
