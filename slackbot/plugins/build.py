@@ -346,9 +346,11 @@ def block_stage(message, block_minutes=5):
 
     message.send(u'>⛔ Build is currently blocked for '
                   '{0} minutes.'.format(block_build))
-    sleep(block_build * 60)
+    while block_build > 0:
+        sleep(60)
+        block_build -= 1
 
-    if block_build == int(block_minutes):
+    if block_build <= 0:
         block_build = False
         message.send(u'>✅ Build is now unblocked.')
 
