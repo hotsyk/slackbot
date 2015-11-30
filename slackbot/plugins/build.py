@@ -335,6 +335,9 @@ def ikarus_status(message, stage_build_no=None):
 @respond_to('block stage (.*)')
 def block_stage(message, block_minutes=5):
     global block_build
+    if block_build:
+        message.reply('Build is already blocked. Please unblock first.')
+        return
     try:
         block_build = int(block_minutes)
     except:
