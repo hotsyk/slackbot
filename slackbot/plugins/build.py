@@ -331,15 +331,23 @@ def ikarus_status(message, stage_build_no=None):
                 ikarus_notify_users
             ))
 
-@listen_to('block stage')
-@respond_to('block stage')
+@listen_to('block stage (.*)')
+@respond_to('block stage (.*)')
 def block_stage(message, block_minutes=5):
     global block_build
 
     block_build = int(block_minutes)
     message.send(u'>⛔ Build is currently blocked for '
-                  '{0} minutes'.format(block_build))
+                  '{0} minutes.'.format(block_build))
     sleep(block_build * 60)
 
+    block_build = False
+
+
+@listen_to('unblock stage')
+@respond_to('unblock stage')
+def unblock_stage(message):
+    global block_build
+    message.send(u'>✅ Build is now unblocked.')
     block_build = False
 
