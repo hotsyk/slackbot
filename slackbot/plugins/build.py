@@ -331,12 +331,17 @@ def ikarus_status(message, stage_build_no=None):
                 ikarus_notify_users
             ))
 
-@listen_to('block stage (.*)')
-@respond_to('block stage (.*)')
+@listen_to('block stage (*)')
+@respond_to('block stage (*)')
 def block_stage(message, block_minutes=5):
     global block_build
+    print block_minutes
+    try:
+        block_build = int(block_minutes)
+    except:
+        message.reply('Incorrect format for minutes: must be integer.')
+        return
 
-    block_build = int(block_minutes)
     message.send(u'>⛔ Build is currently blocked for '
                   '{0} minutes.'.format(block_build))
     sleep(block_build * 60)
