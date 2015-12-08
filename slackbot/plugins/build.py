@@ -10,69 +10,11 @@ from jenkinsapi.jenkins import Jenkins
 from slackbot import settings
 from slackbot.bot import respond_to, listen_to
 
+from .quotes import quotes
 
 stop_stage_build_flag = False
 build_in_progress = False
 block_build = False
-
-quotes = [
-    'Hahahahaha. Oh wait you\'re serious. Let me laugh even harder.',
-    'Anything less than immortality is a complete waste of time.',
-    'Shut up baby, I know it!',
-    'I\'m back baby',
-    'Let\'s go alredaaaayyy!',
-    'Some day we\'ll be able to look back on this whole thing and laugh...'
-    'AH HA HA HA!!!!',
-    'I\'m not getting you down at all, am I?',
-    'Wearily I sit here, pain and misery my only companions.',
-    'It\'s not my fault.',
-    'Do. Or do not. There is no try.',
-    'In my experience there is no such thing as luck.',
-    'I\'ve got a bad feeling about this.',
-    'Your eyes can deceive you. Don\'t trust them.',
-    'Never tell me the odds.',
-    'Stay on target.',
-    'This is a new day, a new beginning.',
-    'May the Force be with you',
-    'Use the force, Luke.',
-    'Mmm. Lost a planet, Master Obi-Wan has. How embarrassing.',
-    'If there\'s a bright centre to the universe, '
-    'you\'re on the planet that it\'s farthest from.',
-    'Fear is the path to the dark side.',
-    'I find your lack of faith disturbing.',
-    'There\'s always a bigger fish.',
-    'Hello. I don\'t believe we have been introduced. R2-D2? '
-    'A pleasure to meet you. I am C-3PO, Human-Cyborg Relations.',
-    'Ahh, hard to see, the Dark Side is.',
-    'Sir, the possibility of successfully navigating an asteroid field '
-    'is approximately 3,720 to 1.',
-    'Obi-Wan has taught you well.',
-    'I suggest a new strategy, R2: let the Wookiee win.',
-    'Remember...the Force will be with you, always.',
-    'Don\'t Panic!',
-    'Would it save you a lot of time if I just gave up and went mad now?',
-    'You\'re turning into a penguin. Stop it.',
-    'So long, and thanks for all the fish.',
-    'All those moments will be lost in time… like tears in rain.',
-    'Bond. James Bond.',
-    'Do I look like I give a damn?',
-    'Everybody runs, Fletch.',
-    'Fasten your seat belts, it\'s going to be a bumpy night!',
-    'Go ahead, make my day.',
-    'I am Groot',
-    'I drink your milkshake!',
-    'I\'ll be back.',
-    'I\'m gonna make him an offer he can\'t refuse.',
-    'In case I don\'t see ya, good afternoon, good evening, and good night!',
-    'Just keep swimming.',
-    'Life is a box of chocolates, Forrest. '
-    'You never know what you\'re gonna get.',
-    'Louis, I think this is the beginning of a beautiful friendship.',
-    'Nobody\'s perfect.',
-    'To infinity… and beyond.',
-    'Why so serious?',
-
-]
 
 
 @listen_to('stage build')
