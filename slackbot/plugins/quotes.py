@@ -97,4 +97,11 @@ quotes = [
     "My precious.",
     "I feel the need — the need for speed!",
     "A martini. Shaken, not stirred.",
+    "It worked yesterday",
+    "I'm surprised it works as well as it does",
+    "It's just some unlucky coincidence",
+    "I didn't receive a ticket for it",
+    "I haven't touched that code in weeks",
+    "I'm still working on that as we speak",
+    "It works, but it's not been tested",
 ]

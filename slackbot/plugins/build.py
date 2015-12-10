@@ -16,6 +16,35 @@ stop_stage_build_flag = False
 build_in_progress = False
 block_build = False
 
+broken_build_images = [
+    'https://media4.giphy.com/media/Nzbe0yjeQc0JW/200.gif',
+    'https://media3.giphy.com/media/26tPughh56URCl2og/200.gif',
+    'https://media1.giphy.com/media/L3TJlPdnJffDq/200.gif',
+    'https://media1.giphy.com/media/bAy8xK8qcCz0A/200.gif',
+
+]
+good_build_images = [
+    'http://i.imgur.com/4Ev4dPs.gif',
+    'https://media2.giphy.com/media/Pjr9bh5OUkgTe/200.gif',
+    'https://media4.giphy.com/media/aysMUD6VggKEU/200.gif',
+    'https://media1.giphy.com/media/VguA9WaSffqP6/200.gif',
+    'https://media3.giphy.com/media/XuBJvrKHutnkQ/200.gif',
+    'https://media1.giphy.com/media/t3Mzdx0SA3Eis/200.gif',
+    'https://media2.giphy.com/media/xTiTnzEhdR9y9PNyc8/200.gif',
+    'https://media0.giphy.com/media/bl9eEWvVN3GUM/200.gif',
+    'https://media3.giphy.com/media/LgwoVr7YgUkrC/200.gif',
+
+]
+start_build_images = [
+    'https://media.giphy.com/media/85hVKKLXQ4OQw/giphy.gif',
+    'https://media.giphy.com/media/3oEdv22bKDUluFKkxi/giphy.gif',
+    'https://media1.giphy.com/media/xTiTnmeJ1bBGONMCBy/200.gif',
+    'https://media1.giphy.com/media/2r6ji5IG2gN5C/200.gif',
+    'https://media0.giphy.com/media/l41m0DAHeMJHaKRBC/200.gif',
+    'https://media3.giphy.com/media/OT1gQvc2HjkT6/200.gif',
+    'https://media3.giphy.com/media/fdiWBMyTEAhjy/200.gif'
+]
+
 
 @listen_to('stage build')
 @respond_to('stage build')
@@ -23,6 +52,8 @@ def stage_build(message):
     global stop_stage_build_flag
     global build_in_progress
     global block_build
+
+    random.seed()
 
     if block_build:
         message.reply(u'⛔ Sorry, but build is currently blocked. '
@@ -40,10 +71,13 @@ def stage_build(message):
 
     build_in_progress = True
     stop_stage_build_flag = False
-    try:
-        message.reply(random.choice(quotes))
-    except:
-        message.reply('Roger that')
+    if random.randrange(2) == 1:
+        message.replay(random.choice(start_build_images))
+    else:
+        try:
+            message.reply(random.choice(quotes))
+        except:
+            message.reply('Roger that')
 
     for i in xrange(5):
         if stop_stage_build_flag:
@@ -69,6 +103,9 @@ def stage_build(message):
         build = my_job.get_last_build()
         status = build.get_status()
         if status == 'SUCCESS':
+            if random.randrange(2) == 1:
+                message.send(random.choice(good_build_images))
+
             message.send('>✅ Build "{0}" finished.\n>'
                          'Check results here {1}'.format(
                              build.name, build.baseurl))
@@ -78,6 +115,8 @@ def stage_build(message):
                 '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
                     build.name, build.baseurl))
         else:
+            if random.randrange(2) == 1:
+                message.send(random.choice(broken_build_images))
             message.send(
                 '>❗ Build "{0}" failed\n>Check results here {1}'.format(
                     build.name, build.baseurl))
@@ -273,6 +312,7 @@ def ikarus_status(message, stage_build_no=None):
                 ikarus_notify_users
             ))
 
+
 @listen_to('block stage (.*)')
 @respond_to('block stage (.*)')
 def block_stage(message, block_minutes=5):
@@ -288,11 +328,11 @@ def block_stage(message, block_minutes=5):
 
     message.send(u'>⛔ Build is currently blocked for '
                   '{0} minutes.'.format(block_build))
-    while block_build > 0:
+    while block_build >= 0:
         sleep(60)
         block_build -= 1
 
-    if block_build <= 0:
+    if block_build <= 0 and block_build is False:
         block_build = False
         message.send(u'>✅ Build is now unblocked.')
 
