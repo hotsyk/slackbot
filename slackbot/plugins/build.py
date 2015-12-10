@@ -71,13 +71,13 @@ def stage_build(message):
 
     build_in_progress = True
     stop_stage_build_flag = False
-    if random.randrange(2) == 1:
-        message.reply(random.choice(start_build_images))
-    else:
-        try:
-            message.reply(random.choice(quotes))
-        except:
-            message.reply('Roger that')
+    #if random.randrange(2) == 1:
+    #    message.reply(random.choice(start_build_images))
+    #else:
+    try:
+        message.reply(random.choice(quotes))
+    except:
+        message.reply('Roger that')
 
     for i in xrange(5):
         if stop_stage_build_flag:
@@ -103,8 +103,8 @@ def stage_build(message):
         build = my_job.get_last_build()
         status = build.get_status()
         if status == 'SUCCESS':
-            if random.randrange(2) == 1:
-                message.send(random.choice(good_build_images))
+            #if random.randrange(2) == 1:
+            #    message.send(random.choice(good_build_images))
 
             message.send('>✅ Build "{0}" finished.\n>'
                          'Check results here {1}'.format(
@@ -115,8 +115,8 @@ def stage_build(message):
                 '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
                     build.name, build.baseurl))
         else:
-            if random.randrange(2) == 1:
-                message.send(random.choice(broken_build_images))
+            #if random.randrange(2) == 1:
+            #    message.send(random.choice(broken_build_images))
             message.send(
                 '>❗ Build "{0}" failed\n>Check results here {1}'.format(
                     build.name, build.baseurl))
