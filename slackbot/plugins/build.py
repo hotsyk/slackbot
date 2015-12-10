@@ -72,7 +72,7 @@ def stage_build(message):
     build_in_progress = True
     stop_stage_build_flag = False
     if random.randrange(2) == 1:
-        message.replay(random.choice(start_build_images))
+        message.reply(random.choice(start_build_images))
     else:
         try:
             message.reply(random.choice(quotes))
