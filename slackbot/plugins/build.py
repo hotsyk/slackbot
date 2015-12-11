@@ -332,7 +332,7 @@ def block_stage(message, block_minutes=5):
         sleep(60)
         block_build -= 1
 
-    if block_build <= 0 and block_build is False:
+    if block_build <= 0 and block_build is not False:
         block_build = False
         message.send(u'>✅ Build is now unblocked.')
 
@@ -344,3 +344,7 @@ def unblock_stage(message):
     message.send(u'>✅ Build is now unblocked.')
     block_build = False
 
+
+@listen_to('any volunteers')
+def volunteers(message):
+    message.reply('http://i.imgur.com/TONDq.gif')
