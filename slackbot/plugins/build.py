@@ -328,7 +328,7 @@ def block_stage(message, block_minutes=5):
         return
 
     message.send(u'>⛔ Build is currently blocked for '
-                  '{0} minutes.'.format(block_build))
+                 '{0} minutes.'.format(block_build))
     while block_build >= 0:
         sleep(60)
         block_build -= 1
@@ -348,4 +348,4 @@ def unblock_stage(message):
 
 @listen_to('any volunteers')
 def volunteers(message):
-    message.reply('http://i.imgur.com/TONDq.gif?{0}'.format(str(time.time()))
+    message.reply('http://i.imgur.com/TONDq.gif?{0}'.format(str(time.time())))
