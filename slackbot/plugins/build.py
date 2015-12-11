@@ -2,6 +2,7 @@
 import datetime
 import pytz
 import random
+import time
 
 from time import sleep
 
@@ -347,4 +348,4 @@ def unblock_stage(message):
 
 @listen_to('any volunteers')
 def volunteers(message):
-    message.reply('http://i.imgur.com/TONDq.gif')
+    message.reply('http://i.imgur.com/TONDq.gif?{0}'.format(str(time.time()))
