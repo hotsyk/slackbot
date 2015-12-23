@@ -104,4 +104,72 @@ quotes = [
     "I haven't touched that code in weeks",
     "I'm still working on that as we speak",
     "It works, but it's not been tested",
+    "Always code as if the guy who ends up maintaining your code will "
+    "be a violent psychopath who knows where you live.",
+    "A good programmer looks both ways before crossing a one-way street.",
+    "Hey! It compiles! Ship it!",
+    "I have NOT lost my mind—I have it backed up on tape somewhere.",
+    "It works on my machine.",
+    "Only half of programming is coding. The other 90% is debugging.",
+    "Press any key to continue or any other key to quit.",
+    "The best thing about a boolean is even if you are wrong, you are "
+    "only off by a bit.",
+    "The nice thing about standards is that there are so many to choose from.",
+    "There is nothing quite so permanent as a quick fix.",
+    "There\'s no test like production.",
+    "I love deadlines. I like the whooshing sound they make as they fly by.",
+    "I think we agree, the past is over.",
+    "In the future everyone will be famous for fifteen minutes.",
+    "In three words I can sum up everything I\'ve learned about life: "
+    "it goes on.",
+    "It is a mistake to think you can solve any major problems just "
+    "with potatoes.",
+    "Just don\'t create a file called -rf.",
+    "Let\'s call it an accidental feature.",
+    "Measuring programming progress by lines of code is like measuring "
+    "aircraft building progress by weight.",
+    "Nobody expects the Spanish inquisition.",
+    "On the Internet, nobody knows you\'re a dog.",
+    "Did you know? Perl - The only language that looks the same "
+    "before and after RSA encryption.",
+    "Stay hungry, stay foolish.",
+    "The problem with troubleshooting is that trouble shoots back.",
+    "Time is an illusion. Lunchtime doubly so.",
+    "When in doubt, leave it out.",
+    "Sometimes it pays to stay in bed on Monday, rather than spending "
+    "the rest of the week debugging Monday\'s code.",
+    "You miss 100 percent of the shots you never take.",
+    "Inside every large program, there is a program trying to get out.",
+    "Why do we never have time to do it right, but always have time to "
+    "do it over?",
+    "The goal of Computer Science is to build something that will last "
+    "at least until we\'ve finished building it.",
+    "Reality itself is too obvious to be true.",
+    "Let me just change this one line of code…",
+    "Fast, Good, Cheap. Pick two.",
+    "Did you know? The collective noun for a group of programmers is "
+    "a merge-conflict.",
+    "A person who never made a mistake never tried anything new.",
+    "If the facts don\'t fit the theory, change the facts.",
+    "I only believe in statistics that I doctored myself.",
+    "If you\'re going through hell, keep going.",
+    "I have never let my schooling interfere with my education.",
+    "The secret of getting ahead is getting started.",
+    "Apparently there is nothing that cannot happen today.",
+    "The best way to make your dreams come true is to wake up.",
+    "People that hate cats will come back as mice in their next life.",
+    "Sometimes I think we\'re alone in the universe & sometimes I "
+    "think we\'re not. In either case the idea is quite staggering",
+    "Talk is cheap, show me the code!",
+    "They did not know it was impossible, so they did it!",
+    "You want it in one line? Does it have to fit in 80 columns?",
+    "The Internet? Is that thing still around?",
+    "The journey is the destination.",
+    "The older I get, the more I believe that the only way to "
+    "become a better programmer is by not programming.",
+    "Good is the enemy of great, but great is the enemy of shipped.",
+    "Simplicity is prerequisite for reliability.",
+    "No one hates software more than software developers.",
+    "Code is like humor. When you have to explain it, it\'s bad.",
+    "Code never lies, comments sometimes do.",
 ]

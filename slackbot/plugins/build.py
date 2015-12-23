@@ -254,7 +254,7 @@ def ikarus_status(message, stage_build_no=None):
     else:
         ikarus_job = 'ikarus-stage-regression-bvt'
 
-    ikarus_notify_users = '@dzvezdov, @kaydanowski'
+    ikarus_notify_users = '@dzvezdov, @vtatarynov"'
 
     my_job = J[ikarus_job]
 
@@ -299,7 +299,7 @@ def ikarus_status(message, stage_build_no=None):
     elif status == 'ABORTED':
         message.send(
             '>❌ Last build "{0}" was started {1} ago and was aborted: '
-            '{2}\n ATTN: {3}'.format(
+            '{2} (cc: {3})'.format(
                 build.name, time_since_build,
                 build.baseurl,
                 ikarus_notify_users
@@ -307,7 +307,7 @@ def ikarus_status(message, stage_build_no=None):
     else:
         message.send(
             '>❗ Last build "{0}" started {1} ago and had failed: '
-            '{2}\n ATTN: {3}'.format(
+            '{2} (cc: {3})'.format(
                 build.name, time_since_build,
                 build.baseurl,
                 ikarus_notify_users
