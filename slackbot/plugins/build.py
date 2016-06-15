@@ -110,7 +110,10 @@ def stage_build(message):
             message.send('>✅ Build "{0}" finished.\n>'
                          'Check results here {1}'.format(
                              build.name, build.baseurl))
+            # post status of ikarus-stage-smoke
             ikarus_status(message, build.buildno)
+            # post status of ikarus-regression-bvt
+            ikarus_status(message)
         elif status == 'ABORTED':
             message.send(
                 '>❌ Build "{0}" aborted\n>Check results here {1}'.format(
@@ -254,7 +257,7 @@ def ikarus_status(message, stage_build_no=None):
     else:
         ikarus_job = 'ikarus-stage-regression-bvt'
 
-    ikarus_notify_users = '@dzvezdov, @vtatarynov"'
+    ikarus_notify_users = '@dzvezdov, @mminakov"'
 
     my_job = J[ikarus_job]
 
